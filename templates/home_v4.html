@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="static/css/home_v4.css">
+
+    <!--! Important Library -->   
+        <script src="https://d3js.org/d3.v4.js"></script>  
+        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@5"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@4.8.1"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@6"></script>
+    </head>
+    <body>
+    <!--! Header with Navigation Bar -->
+        <header>
+            <span class="logo" onclick="openNav()">
+                <!-- <img src="static/images/four_dots.png" alt="logo" width="30" height="30">
+                    <p class="logo_text">
+                        <span>SOCIAL MEDIA</span>
+                        <br>
+                        <span id="logo_subtext"> INSIDER</span>
+                    </p> -->
+                <img src="static/images/INSIDER_LOGO.png" class="logo_text" alt="logo" width="215" height="36">
+            </span>
+            <img class="cta"  src="static/images/msStat_logo.png" alt="logo" width="154" height="36">
+        </header>
+    <!--! Side Navigation Bar -->
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="{{url_for('home')}}">Overall</a>
+            <a href="{{url_for('engagement_page')}}">Engagement</a>
+            <a href="{{url_for('category_page')}}">Category</a>
+            <a href="{{url_for('ranking_page')}}">Ranking</a>
+          </div>
+
+    <!--! Main Content -->
+        <div class='slideshow-container'>
+            <!--TODO: Slide 1 -->
+            <div class='overall_slide fade'>
+                <div class='slide-number'>
+                    OVERALL ACCOUNTS
+                </div>
+                <div id="overall_logo">
+                    <div id="logo_1">
+                        <img src="static/images/facebook_2.png" alt="facebook" width="30" height="30">
+                    </div>
+                    <div id="logo_2">
+                        <img src="static/images/instagram_2.png" alt="facebook" width="30" height="30">
+                    </div>
+                    <div id="logo_3">
+                        <img src="static/images/twitter_2.png" alt="facebook" width="30" height="30">
+                    </div>
+                    <div id="logo_4">
+                        <img src="static/images/youtube_2.png" alt="facebook" width="30" height="30">
+                    </div>
+                </div>
+                <div id="overall_account">
+                <button class="btn" id="account_1" value="facebook">
+                    <p class="account_num"> {{ account_dict['facebook'] }} </p>
+                    <p class="accounts">Accounts</p>
+                </button>
+                <button class="btn" id="account_2" value="ig">
+                    <p class="account_num">{{ account_dict['instagram'] }}</p>
+                    <p class="accounts">Accounts</p>
+                </button>
+                <button class="btn" id="account_3" value="twitter">
+                    <p class="account_num">{{ account_dict['twitter'] }}</p>
+                    <p class="accounts">Accounts</p>
+                </button>
+                <button class="btn" id="account_4" value="youtube">
+                    <p class="account_num">{{ account_dict['youtube'] }}</p>
+                    <p class="accounts">Accounts</p>
+                </button>
+                </div>
+                <div id="overall_desc">
+                    <p style="text-align: center;">
+                        This project is part of Information Visualization (2603646) in M.Sc. Stat @ Chulalongkorn University and the data was contributed by WISESIGHT (THAILAND) CO.,LTD. The visualizations deals with posts and their engagement of Thai influencers from four platforms in 2020. 
+                    </p>
+                </div>
+            </div>
+            
+            <!--TODO: Slide 2 -->    
+            <div class='overall_slide fade'>
+                <div class='slide-number'>ACCOUNT CATEGORIES</div>
+
+                <div class="overall_cat">
+                    <div id="facebook_pie"></div>
+                    <div id="ig_pie"></div>
+                    <div id="twitter_pie"></div>
+                    <div id="youtube_pie"></div>
+                    <div id="legend_pie"></div>
+                </div>
+
+            </div>
+
+            <!-- TODO: Slide 3 Overall Summary -->
+            <div class='overall_slide fade'>
+                <div class='slide-number'>OVERALL SUMMARY</div>
+
+                <div class="overall">
+                    <button class="summary_btn" id="overall_1" value="facebook">
+                        <img src="static/images/facebook_2.png" alt="facebook" width="20" height="20">
+                    </button>
+                    <button class="summary_btn" id="overall_2" value="ig">
+                        <img src="static/images/instagram_2.png" alt="instagram" width="20" height="20">
+                    </button>
+                    <button class="summary_btn" id="overall_3" value="twitter">
+                        <img src="static/images/twitter_2.png" alt="twitter" width="20" height="20"> 
+                    </button>
+                    <button class="summary_btn" id="overall_4" value="youtube">
+                        <img src="static/images/youtube_3.png" alt="youtube" width="20" height="20"> 
+                    </button>
+
+                    <!-- <span id="overall_update_dt"></span> -->
+                    <span>
+                        <select id="overall_selector" name="types">
+                            <option value="post">Posts</option>
+                            <option value="engagement">Engagements</option>
+                         </select>
+                    </span>
+
+                </div>
+     
+                <div class="d3_charts">
+                    <div class="overall_5" id="d3_line_total">
+                        <span>Monthly <span class="topic_text">Posts</span></span>
+                    </div>
+                    <div class="overall_6" id="d3_growth_change">
+                        <span>Movement of <span class="topic_text">Posts</span></span>
+                    </div>
+                    <div class="overall_8" id="d3_heatmap">
+                        <span><span class="topic_text" style="margin-bottom: 0%;">Posts</span> Concentration</span>
+                    </div>
+                </div>
+
+        </div>
+
+            <!--? Next and previous buttons -->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+            <!-- <br> -->
+
+            <!-- The dots/circles -->
+            <div class="dot-container" style="text-align:center">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
+
+
+        <!--! JavaScript -->
+
+        <!--* Overall Section -->
+
+        <script src="static/js/category_pie_v2.js"></script>
+
+        <script src="static/js/d3_line_total_v4.js"></script>
+        <script src="static/js/d3_growth_change_v3.js"></script>
+        <script src="static/js/d3_heatmap_v3.js"></script>
+        <script src="static/js/update.js"></script>
+
+ 
+
+
+
+        <!--* Animation Section -->
+        <script src='static/js/slide_change.js'></script>
+        <script>
+            function openNav() {
+              document.getElementById("mySidenav").style.width = "300px";
+            }
+            
+            function closeNav() {
+              document.getElementById("mySidenav").style.width = "0";
+            }
+        </script>
+
+        <script>
+            // Dropdwon Selection
+            document.getElementById("overall_selector").onchange = function(){select_data()};
+            function select_data() {
+                var select = document.getElementById('overall_selector')
+                var value = select.options[select.selectedIndex].value
+                let text1;
+    
+                if (value == "post") {
+                    text1 = "Posts"
+                } else {
+                    text1 = "Engagements"
+                }
+    
+                var topic_texts = document.getElementsByClassName("topic_text");
+                for (var i = 0; i < topic_texts.length; i++) {
+                    topic_texts[i].innerHTML = text1;}     
+
+                let line_data;
+                let bar_data;
+                let heatmap_data;
+
+                if (value == "post") {
+                    line_data = "static/data/pivot_post_total.csv"
+                    bar_data = "static/data/pivot_post_change_rate.csv"
+                    heatmap_data = "static/data/pivot_post_ratios.csv"
+                } else {
+                    line_data = "static/data/pivot_engage_total.csv"
+                    bar_data = "static/data/pivot_engage_change_rate.csv"
+                    heatmap_data = "static/data/pivot_engage_ratios.csv"
+                }
+                
+                // Line Total Update 
+                    // run the updateChart function with this selected option
+                    d3.csv(line_data,
+                    // When reading the csv, I must format variables: created_month
+                    function(d){
+                        return {date : d3.timeParse("%Y-%m-%d")(d.created_month), facebook:d.facebook, ig:d.instagram, twitter:d.twitter, youtube:d.youtube,all_platforms:d.all_platforms}
+                    },
+                    function(data) { update_line(data,"all_platforms")}
+                    );                    
+                // Bar Growth Update 
+                    // run the updateChart function with this selected option
+                    d3.csv(bar_data,
+                    // When reading the csv, I must format variables: created_month
+                    function(d){
+                        return {date : d3.timeParse("%Y-%m-%d")(d.created_month), facebook:d.facebook, ig:d.instagram, twitter:d.twitter, youtube:d.youtube,all_platforms:d.all_platforms}
+                    },
+                    function(data) { update_bar(data,"all_platforms")}
+                    );
+                // Heatmap Update 
+                    // run the updateChart function with this selected option
+                    d3.csv(heatmap_data,
+                    // When reading the csv, I must format variables: created_month
+                    function(d){
+                        return {group : d.month_name,variable:d.day_name, facebook:d.facebook, ig:d.instagram, twitter:d.twitter, youtube:d.youtube,all_platforms:d.all_platforms}
+                    },
+                    function(data) { update_heatmap(data,"all_platforms")}
+                    );
+            }
+        </script>
+
+    </body>
+</html>

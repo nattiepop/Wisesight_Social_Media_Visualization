@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="static/css/home_v4.css">
+
+    <!--! Important Library -->   
+        <script src="https://d3js.org/d3.v4.js"></script>  
+        <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@5"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@4.8.1"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@6"></script>
+    </head>
+    <body>
+    <!--! Header with Navigation Bar -->
+        <header>
+            <span class="logo" onclick="openNav()">
+                <!-- <img src="static/images/four_dots.png" alt="logo" width="30" height="30">
+                    <p class="logo_text">
+                        <span>SOCIAL MEDIA</span>
+                        <br>
+                        <span id="logo_subtext"> INSIDER</span>
+                    </p> -->
+                <img src="static/images/INSIDER_LOGO.png" class="logo_text" alt="logo" width="215" height="36">
+            </span>
+            <img class="cta"  src="static/images/msStat_logo.png" alt="logo" width="154" height="36">
+        </header>
+    <!--! Side Navigation Bar -->
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="{{url_for('home')}}">Overall</a>
+        <a href="{{url_for('engagement_page')}}">Engagement</a>
+        <a href="{{url_for('category_page')}}">Category</a>
+        <a href="{{url_for('ranking_page')}}">Ranking</a>
+      </div>
+
+    <!--! Main Content -->
+        <div class='category-container'>
+            <span class="scatter" id="scatter2"></span>
+            <span class="scatter" id="stream"></span>
+        </div>
+
+
+        <!--! JavaScript -->
+
+        <!--* Graph Section -->
+        <!-- <script src="static/js/altair_scatter2.js"></script>
+        <script src="static/js/altair_stream.js"></script> -->
+
+        <script src="static/js/altair_parse.js"></script>
+        <script>
+            parse("scatter2",'{{scatter_spec|tojson|safe}}');
+            parse("stream",'{{stream_spec|tojson|safe}}');
+        </script>
+
+        <script>
+            function openNav() {
+              document.getElementById("mySidenav").style.width = "300px";
+            }
+            
+            function closeNav() {
+              document.getElementById("mySidenav").style.width = "0";
+            }
+        </script>
+    </body>
+</html>
